@@ -1,0 +1,13 @@
+node:
+  _default:
+    follow_menu: 'true'
+    path: ''
+  procal_entry:
+    path: 'ammattikalenteri/{procal_groups:name}/{title}'
+  page:
+    path: '{title}'
+    follow_menu: 'true'
+  matbank_item:
+    path: 'materiaalipankki/{matbank_category:name}/{title}'
+  forum:
+    path: 'forum/{taxonomy_forums:name}/{title}'

@@ -1,0 +1,6 @@
+name: Automatic Slugs
+type: module
+package: Kirjastot.fi
+description: Generate SEO URLs for content automaticly
+core: 8.x
+dependencies: { }

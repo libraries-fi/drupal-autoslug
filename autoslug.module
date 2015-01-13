@@ -1,0 +1,25 @@
+<?php
+
+use Drupal\Core\Entity\EntityInterface;
+
+function autoslug_entity_presave(EntityInterface $entity) {
+
+}
+
+function autoslug_entity_insert(EntityInterface $entity) {
+    $langcode = $entity->language()->getId();
+    $config = Drupal::service('autoslug.config')->configForEntity($entity);
+
+    if ($config) {
+        $aliases = Drupal::service('path.alias_storage');
+
+        if (!$url = $aliases->lookupPathAlias($entity->getSystemPath(), $langcode)) {
+            if (!empty($config['path'])) {
+                $pattern = $config['path'];
+                $slugs = Drupal::service('autoslug.alias_generator');
+                $alias = $slugs->aliasByPattern($entity, $pattern);
+                $aliases->save($entity->getSystemPath(), $alias, $langcode);
+            }
+        }
+    }
+}
