@@ -2,11 +2,11 @@
 
 use Drupal\Core\Entity\EntityInterface;
 
-function autoslug_entity_presave(EntityInterface $entity) {
-
+function autoslug_entity_insert(EntityInterface $entity) {
+    autoslug_create_entity_alias($entity);
 }
 
-function autoslug_entity_insert(EntityInterface $entity) {
+function autoslug_create_entity_alias(EntityInterface $entity) {
     $langcode = $entity->language()->getId();
     $config = Drupal::service('autoslug.config')->configForEntity($entity);
 
@@ -21,5 +21,29 @@ function autoslug_entity_insert(EntityInterface $entity) {
                 $aliases->save($entity->getSystemPath(), $alias, $langcode);
             }
         }
+    }
+}
+
+function autoslug_generate_entity_aliases() {
+    $em = Drupal::entityManager();
+    $node_storage = $em->getStorage('node');
+
+    $counter = 0;
+
+    foreach ($node_storage->loadMultiple(null) as $node) {
+        var_dump($counter++);
+        autoslug_create_entity_alias($node);
+
+        if ($counter++ % 10 == 0) {
+            flush();
+        }
+    }
+}
+
+function autoslug_preprocess() {
+    static $i = 0;
+
+    if (!$i++ && isset($_GET['create_aliases'])) {
+        autoslug_generate_entity_aliases();
     }
 }
