@@ -25,7 +25,7 @@ class AliasGenerator
 
         unset($this->entity);
 
-        return sprintf('%s.%s', $url, substr(uniqid(true), -5));
+        return sprintf('%s-%s', $url, substr(uniqid(true), -5));
     }
 
     protected function replaceMatch(array $matches)
