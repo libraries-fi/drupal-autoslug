@@ -44,8 +44,9 @@ class AliasGenerator
     public function slugify($string, $randomize = false) {
         $string = strtolower(trim($string));
         $string = str_replace(['ä', 'ö', 'å'], ['a', 'o', 'a'], $string);
-        $string = preg_replace('/[\s\-]+/', '-', $string);
+        $string = preg_replace('/[\s]+/', '-', $string);
         $string = preg_replace('/[^\w\-]+/', '', $string);
+        $string = preg_replace('/-{2,}/', '-', $string);
 
         if ($randomize) {
             $string .= '-' . substr(uniqid(true), -5);
