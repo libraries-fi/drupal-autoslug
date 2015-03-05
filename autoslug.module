@@ -31,10 +31,10 @@ function autoslug_generate_entity_aliases() {
     $counter = 0;
 
     foreach ($node_storage->loadMultiple(null) as $node) {
-        var_dump($counter++);
         autoslug_create_entity_alias($node);
 
         if ($counter++ % 10 == 0) {
+            var_dump($counter);
             flush();
         }
     }

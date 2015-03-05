@@ -12,4 +12,4 @@ node:
   announcement:
     path: 'uutiset/{ancmt_groups:name}/{title}'
   kirjastosarjakuva:
-    path: 'sarjakuva/{title}-{nid}'
+    path: 'sarjakuva/{field_publish_date}/{title}'
