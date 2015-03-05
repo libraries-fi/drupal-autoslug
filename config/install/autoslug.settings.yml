@@ -11,3 +11,5 @@ node:
     path: 'forum/{taxonomy_forums:name}/{title}'
   announcement:
     path: 'uutiset/{ancmt_groups:name}/{title}'
+  kirjastosarjakuva:
+    path: 'sarjakuva/{title}-{nid}'
