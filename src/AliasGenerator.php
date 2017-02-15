@@ -25,7 +25,8 @@ class AliasGenerator
 
         unset($this->entity);
 
-        return sprintf('%s-%s', $url, substr(uniqid(true), -5));
+        // return sprintf('%s-%s', $url, substr(uniqid(true), -5));
+        return sprintf('%s-%s', $url, $entity->id());
     }
 
     protected function replaceMatch(array $matches)
@@ -38,6 +39,7 @@ class AliasGenerator
         } else {
             $value = $this->entity->get($prop)->value;
         }
+        $slug = $this->slugify($value);
         return $this->slugify($value);
     }
 
@@ -45,7 +47,7 @@ class AliasGenerator
         $string = strtolower(trim($string));
         $string = str_replace(['ä', 'ö', 'å'], ['a', 'o', 'a'], $string);
         $string = preg_replace('/[\s]+/', '-', $string);
-        $string = preg_replace('/[^\w\-]+/', '', $string);
+        $string = preg_replace('/[^\w\-_]+/', '', $string);
         $string = preg_replace('/-{2,}/', '-', $string);
 
         if ($randomize) {
