@@ -2,14 +2,15 @@ node:
   _default:
     path: ''
   procal_entry:
-    path: 'ammattikalenteri/{procal_groups:name}/{title}'
+    path: '/ammattikalenteri/{field_procal_groups:name}/{title}'
   page:
-    path: '{title}'
+    path: '/{title}'
   matbank_item:
-    path: 'materiaalipankki/{matbank_category:name}/{title}'
+    path: '/materiaalipankki/{field_matbank_category:name}/{title}'
   forum:
-    path: 'forum/{taxonomy_forums:name}/{title}'
+    path: '/forum/{taxonomy_forums:name}/{title}'
   announcement:
-    path: 'uutiset/{ancmt_groups:name}/{title}'
+    path: '/uutiset/{field_ancmt_groups:name}/{title}'
   kirjastosarjakuva:
-    path: 'sarjakuva/{field_publish_date}/{title}'
+    path: '/sarjakuva/{field_publish_date}/{title}'
+langcode: fi
