@@ -10,10 +10,6 @@ function autoslug_create_entity_alias(EntityInterface $entity) {
   $langcode = $entity->language()->getId();
   $config = Drupal::service('autoslug.config')->configForEntity($entity, $langcode);
 
-  if ($entity->getEntityTypeId() == 'taxonomy_term' && $entity->bundle() == 'finto') {
-
-  }
-
   if ($config) {
     $aliases = Drupal::service('path.alias_storage');
     $cache_key = '/' . $entity->urlInfo()->getInternalPath();

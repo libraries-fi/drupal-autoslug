@@ -12,9 +12,20 @@ class Config {
   public function configForEntity($entity, $langcode) {
     $type_id = $entity->getEntityTypeId();
     $bundle_id = $entity->bundle();
-    $key = sprintf('%s.%s', $type_id, $bundle_id);
+    $key_bundle = sprintf('%s.%s', $type_id, $bundle_id);
     $key_lang = sprintf('%s.%s', $key, $langcode);
+    $key_base = $type_id;
 
-    return $this->config->get($key_lang) ?: $this->config->get($key);
+    $keys = [
+      [$type_id, $bundle_id, $langcode],
+      [$type_id, $langcode],
+      [$type_id, $bundle_id],
+    ];
+
+    foreach ($keys as $key) {
+      if ($config = $this->config->get(implode('.', $key))) {
+        return $config;
+      }
+    }
   }
 }
