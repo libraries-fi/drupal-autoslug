@@ -12,9 +12,6 @@ class Config {
   public function configForEntity($entity, $langcode) {
     $type_id = $entity->getEntityTypeId();
     $bundle_id = $entity->bundle();
-    $key_bundle = sprintf('%s.%s', $type_id, $bundle_id);
-    $key_lang = sprintf('%s.%s', $key, $langcode);
-    $key_base = $type_id;
 
     $keys = [
       [$type_id, $bundle_id, $langcode],
