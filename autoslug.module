@@ -41,7 +41,7 @@ function autoslug_generate_entity_aliases() {
   // }
 
   $terms = $em->getStorage('taxonomy_term')->loadByProperties([
-    'vid' => 'finto'
+    'vid' => 'asklib_municipalities'
   ]);
 
   foreach ($terms as $term) {

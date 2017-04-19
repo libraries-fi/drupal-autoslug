@@ -5,20 +5,16 @@ namespace Drupal\autoslug;
 use Drupal\Core\Entity\EntityInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class AliasGenerator
-{
-    public static function create(ContainerInterface $container)
-    {
+class AliasGenerator {
+    public static function create(ContainerInterface $container) {
         return new static;
     }
 
-    public function __construct()
-    {
+    public function __construct() {
 
     }
 
-    public function aliasByPattern(EntityInterface $entity, $pattern)
-    {
+    public function aliasByPattern(EntityInterface $entity, $pattern) {
         $this->entity = $entity;
 
         $url = preg_replace_callback('/\{([\w|:]+)\}/', [$this, 'replaceMatch'], $pattern);
@@ -29,8 +25,7 @@ class AliasGenerator
         return sprintf('%s-%s', $url, $entity->id());
     }
 
-    protected function replaceMatch(array $matches)
-    {
+    protected function replaceMatch(array $matches) {
         $prop = $matches[1];
         if (strpos($prop, ':')) {
             list($key, $prop) = explode(':', $prop);
@@ -44,7 +39,7 @@ class AliasGenerator
     }
 
     public function slugify($string, $randomize = false) {
-        $string = strtolower(trim($string));
+        $string = mb_strtolower(trim($string));
         $string = str_replace(['ä', 'ö', 'å'], ['a', 'o', 'a'], $string);
         $string = preg_replace('/[\s]+/', '-', $string);
         $string = preg_replace('/[^\w\-_]+/', '', $string);
