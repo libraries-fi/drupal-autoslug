@@ -2,6 +2,7 @@
 
 namespace Drupal\autoslug;
 
+use DomainException;
 use Drupal\node\Entity\Node;
 
 class Config {
@@ -24,5 +25,7 @@ class Config {
         return $config;
       }
     }
+
+    throw new DomainException(sprintf('No config for \'%s\'', $entity));
   }
 }

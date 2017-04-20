@@ -1,0 +1,6 @@
+autoslug.aliases:
+  path: '/admin/autoslug/aliases/{type}'
+  defaults:
+    _controller: 'Drupal\autoslug\Controller\SlugController::aliases'
+  requirements:
+    _permission: 'access content'

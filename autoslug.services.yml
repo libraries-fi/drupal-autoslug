@@ -1,7 +1,7 @@
 services:
   autoslug.alias_generator:
     class: Drupal\autoslug\AliasGenerator
-    arguments: ['@service_container']
+    arguments: ['@path.alias_storage', '@autoslug.config']
 
   autoslug.config:
     class: Drupal\autoslug\Config
