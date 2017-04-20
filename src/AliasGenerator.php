@@ -22,7 +22,9 @@ class AliasGenerator {
         unset($this->entity);
 
         // return sprintf('%s-%s', $url, substr(uniqid(true), -5));
-        return sprintf('%s-%s', $url, $entity->id());
+        // return sprintf('%s-%s', $url, $entity->id());
+
+        return $url;
     }
 
     protected function replaceMatch(array $matches) {
