@@ -21,7 +21,7 @@ class AliasGenerator {
       $config = $this->config->configForEntity($entity, $entity->language()->getId());
       return empty($config['automatic']) || $config['automatic'] == TRUE;
     } catch (DomainException $e) {
-
+      // pass
     }
 
     return FALSE;
