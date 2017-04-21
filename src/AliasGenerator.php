@@ -18,7 +18,7 @@ class AliasGenerator {
 
   public function isEntityManaged(EntityInterface $entity) {
     try {
-      $config = $this->config->configForEntity($entity, $langcode);
+      $config = $this->config->configForEntity($entity, $entity->language()->getId());
       return empty($config['automatic']) || $config['automatic'] == TRUE;
     } catch (DomainException $e) {
 
