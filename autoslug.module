@@ -2,10 +2,30 @@
 
 use Drupal\Core\Entity\EntityInterface;
 
+function autoslug_is_entity_published(EntityInterface $entity) {
+  $type = $entity->getEntityType();
+
+  if ($status_key = $type->getKey('status')) {
+    return $entity->get($status_key)->value == TRUE;
+  } else {
+    return TRUE;
+  }
+}
+
 function autoslug_entity_insert(EntityInterface $entity) {
-  try {
-    Drupal::service('autoslug.alias_generator')->createAlias($entity);
-  } catch (RuntimeException $e) {
-    // pass
+  autoslug_entity_update($entity);
+}
+
+function autoslug_entity_update(EntityInterface $entity) {
+  if (autoslug_is_entity_published($entity)) {
+    try {
+      $aliases = Drupal::service('autoslug.alias_generator');
+
+      if ($aliases->isEntityManaged($entity)) {
+        $aliases->createAlias($entity);
+      }
+    } catch (RuntimeException $e) {
+      // pass
+    }
   }
 }

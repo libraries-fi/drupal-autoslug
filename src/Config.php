@@ -26,6 +26,6 @@ class Config {
       }
     }
 
-    throw new DomainException(sprintf('No config for \'%s\'', $entity));
+    throw new DomainException(sprintf('No config for \'%s\'', $entity->getEntityTypeId()));
   }
 }
