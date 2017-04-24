@@ -41,7 +41,7 @@ class AliasGenerator {
 
     $cache_key = '/' . $entity->urlInfo()->getInternalPath();
     $alias = $this->aliasForEntity($entity);
-    $alias = $this->ensureAliasUnique($url, $entity->language()->getId());
+    $alias = $this->ensureAliasUnique($alias, $entity->language()->getId());
 
     $langcode = $entity->language()->getId();
     $this->aliasStorage->save($cache_key, $alias, $langcode);
