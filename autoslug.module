@@ -11,7 +11,7 @@ function autoslug_is_entity_published(EntityInterface $entity) {
   $type = $entity->getEntityType();
 
   if ($status_key = $type->getKey('status')) {
-    return ($entity->get($status_key))->value == TRUE;
+    return $entity->get($status_key)->value == TRUE;
   } else {
     return TRUE;
   }
