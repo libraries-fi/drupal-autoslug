@@ -3,8 +3,6 @@
 namespace Drupal\autoslug;
 
 class Slugger {
-  protected $aliasStorage;
-
   public static function slugify($string, $randomize = FALSE) {
     $string = mb_strtolower(trim($string));
     $string = str_replace(['ä', 'ö', 'å'], ['a', 'o', 'a'], $string);

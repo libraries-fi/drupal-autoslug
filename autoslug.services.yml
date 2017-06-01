@@ -1,8 +1,14 @@
 services:
-  autoslug.alias_generator:
-    class: Drupal\autoslug\AliasGenerator
-    arguments: ['@path.alias_storage', '@autoslug.config']
-
   autoslug.config:
     class: Drupal\autoslug\Config
     arguments: ['@config.factory']
+  autoslug.alias_generator:
+    class: Drupal\autoslug\AliasGenerator
+    arguments: ['@path.alias_storage']
+    tags:
+      - { name: service_collector, tag: autoslug_slugger, call: addSlugger }
+  autoslug.slugger.default:
+    class: 'Drupal\autoslug\DefaultSlugger'
+    arguments: ['@autoslug.config']
+    tags:
+      - { name: autoslug_slugger, priority: 0 }
