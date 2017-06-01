@@ -27,10 +27,6 @@ class AliasGenerator {
   }
 
   public function createAlias(EntityInterface $entity) {
-    if ($this->entityAliasExists($entity)) {
-      return TRUE;
-    }
-
     foreach ($this->sluggers as $slugger) {
       if ($slugger->applies($entity)) {
         $langcode = $entity->language()->getId();

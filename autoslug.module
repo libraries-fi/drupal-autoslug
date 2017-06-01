@@ -1,8 +1,13 @@
 <?php
 
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 
 function autoslug_is_entity_published(EntityInterface $entity) {
+  if (!($entity instanceof ContentEntityInterface)) {
+    return;
+  }
+
   $type = $entity->getEntityType();
 
   if ($status_key = $type->getKey('status')) {
@@ -20,7 +25,9 @@ function autoslug_entity_update(EntityInterface $entity) {
   if (autoslug_is_entity_published($entity)) {
     try {
       $aliases = Drupal::service('autoslug.alias_generator');
-      $aliases->createAlias($entity);
+      if (!$aliases->entityAliasExists($entity)) {
+        $aliases->createAlias($entity);
+      }
     } catch (RuntimeException $e) {
       // pass
     }
