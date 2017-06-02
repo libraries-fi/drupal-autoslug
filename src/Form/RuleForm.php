@@ -16,7 +16,7 @@ class RuleForm extends EntityForm {
       '#title' => $this->t('Entity type'),
       '#options' => $this->getEntityTypeOptions(),
       '#default_value' => $this->entity->getApplicableEntityType(),
-      '#empty_option' => $this->t('- Select a value -'),
+      '#required' => TRUE,
     ];
 
     $form['bundle'] = [
@@ -29,9 +29,10 @@ class RuleForm extends EntityForm {
 
     $form['url'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Alias'),
+      '#title' => $this->t('Pattern'),
       '#description' => $this->t('Base URL for this entity type. Fields of the entity can be referenced with {field_name}'),
-      '#default_value' => $this->entity->getUrlBase(),
+      '#default_value' => $this->entity->getPattern(),
+      '#required' => TRUE,
     ];
 
     $form['id'] = [

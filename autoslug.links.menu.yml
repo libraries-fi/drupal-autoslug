@@ -1,0 +1,5 @@
+autoslug.configure:
+  title: 'Automatic slugs'
+  route_name: entity.autoslug_rule.collection
+  description: 'Configure slug rules'
+  parent: 'system.admin_config_system'

@@ -41,7 +41,7 @@ class RuleListBuilder extends EntityListBuilder {
       'id' => $entity->id(),
       'type' => $this->entityTypeLabel($type_id),
       'bundle' => $bundle_id ? $this->entityBundleLabel($type_id, $bundle_id) : $this->t('- All -'),
-      'url' => $entity->getUrlBase(),
+      'url' => $entity->getPattern(),
     ];
 
     return $row + parent::buildRow($entity);

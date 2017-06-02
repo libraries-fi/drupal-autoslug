@@ -1,11 +1,19 @@
 <?php
 
-namespace Drupal\autoslug;
+namespace Drupal\autoslug\Slugger;
 
 use DomainException;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\autoslug\SluggerInterface;
+use Drupal\autoslug\Config;
 
-class DefaultSlugger implements SluggerInterface {
+/**
+ * @deprecated
+ *
+ * Generates URL aliases based on autoslug.settings config, but it does not follow Drupal
+ * best practises and is abandoned.
+ */
+class DeprecatedConfigBasedSlugger implements SluggerInterface {
   protected $config;
 
   public function __construct(Config $config) {

@@ -13,6 +13,7 @@ use Drupal\Core\Entity\EntityStorageInterface;
  *   label = @Translation("Autoslug Rule"),
  *   handlers = {
  *     "list_builder" = "Drupal\autoslug\RuleListBuilder",
+ *     "storage" = "Drupal\autoslug\RuleStorage",
  *     "form" = {
  *       "default" = "Drupal\autoslug\Form\RuleForm",
  *       "delete" = "Drupal\Core\Entity\EntityDeleteForm"
@@ -69,7 +70,7 @@ class SluggerRule extends ConfigEntityBase {
     return $this->wordLimit;
   }
 
-  public function getUrlBase() {
+  public function getPattern() {
     return $this->url;
   }
 

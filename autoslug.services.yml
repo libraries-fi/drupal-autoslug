@@ -8,7 +8,12 @@ services:
     tags:
       - { name: service_collector, tag: autoslug_slugger, call: addSlugger }
   autoslug.slugger.default:
-    class: 'Drupal\autoslug\DefaultSlugger'
-    arguments: ['@autoslug.config']
+    class: 'Drupal\autoslug\Slugger\DefaultSlugger'
+    arguments: ['@entity_type.manager']
     tags:
       - { name: autoslug_slugger, priority: 0 }
+  autoslug.slugger.deprecated:
+    class: 'Drupal\autoslug\Slugger\DeprecatedConfigBasedSlugger'
+    arguments: ['@autoslug.config']
+    tags:
+      - { name: autoslug_slugger, priority: -100 }
