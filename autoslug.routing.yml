@@ -4,3 +4,31 @@ autoslug.aliases:
     _controller: 'Drupal\autoslug\Controller\SlugController::aliases'
   requirements:
     _permission: 'access content'
+entity.autoslug_rule.add_form:
+  path: '/admin/autoslug/new'
+  defaults:
+    _entity_form: 'autoslug_rule.default'
+    _title: 'Create slug rule'
+  requirements:
+    _permission: 'administer autoslug'
+entity.autoslug_rule.edit_form:
+  path: '/admin/autoslug/{autoslug_rule}'
+  defaults:
+    _entity_form: 'autoslug_rule.default'
+    _title: 'Edit slug rule'
+  requirements:
+    _permission: 'administer autoslug'
+entity.autoslug_rule.collection:
+  path: '/admin/autoslug'
+  defaults:
+    _entity_list: 'autoslug_rule'
+    _title: 'Slug rules'
+  requirements:
+    _permission: 'administer autoslug'
+entity.autoslug_rule.delete_form:
+  path: '/admin/autoslug/{autoslug_rule}/delete'
+  defaults:
+    _entity_form: 'autoslug_rule.delete'
+    _title: 'Delete'
+  requirements:
+    _permission: 'administer autoslug'

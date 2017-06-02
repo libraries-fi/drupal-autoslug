@@ -6,5 +6,5 @@ use Drupal\Core\Entity\EntityInterface;
 
 interface SluggerInterface {
   public function applies(EntityInterface $entity);
-  public function aliasForEntity(EntityInterface $entity);
+  public function build(EntityInterface $entity);
 }

@@ -3,4 +3,5 @@ type: module
 package: Kirjastot.fi
 description: Generate SEO URLs for content automaticly
 core: 8.x
+configure: entity.autoslug_rule.collection
 dependencies: { }

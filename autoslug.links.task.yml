@@ -1,0 +1,4 @@
+autoslug.autoslug_rule.edit_form:
+  title: 'Edit'
+  route_name: entity.autoslug_rule.edit_form
+  base_route: entity.autoslug_rule.edit_form

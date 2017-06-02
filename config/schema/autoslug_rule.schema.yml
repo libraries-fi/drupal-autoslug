@@ -1,0 +1,21 @@
+autoslug.rule.*:
+  type: config_entity
+  label: 'Autoslug rule'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    type:
+      type: string
+      label: 'Entity type'
+    bundle:
+      type: string
+      label: 'Bundle'
+    url:
+      type: string
+      label: 'URL Base'
+      translatable: TRUE
+      form_element_class: '\Drupal\config_translation\FormElement\Textfield'
+    wordLimit:
+      type: integer
+      label: 'Maximum number of words'

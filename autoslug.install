@@ -1,0 +1,9 @@
+<?php
+
+/**
+ * Install entity type 'kifimail_email_log'.
+ */
+function autoslug_update_8202(&$sandbox) {
+  $type = Drupal::entityTypeManager()->getDefinition('autoslug_rule');
+  Drupal::entityDefinitionUpdateManager()->installEntityType($type);
+}

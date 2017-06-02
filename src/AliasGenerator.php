@@ -19,18 +19,22 @@ class AliasGenerator {
     $this->sluggers->insert($slugger, $priority);
   }
 
-  public function entityAliasExists(EntityInterface $entity) {
+  public function fetchExistingAlias(EntityInterface $entity) {
     $langcode = $entity->language()->getId();
     $cache_key = '/' . $entity->urlInfo()->getInternalPath();
     $match = $this->aliasStorage->lookupPathAlias($cache_key, $langcode);
-    return $match != FALSE;
+    return $match;
+  }
+
+  public function entityAliasExists(EntityInterface $entity) {
+    return $this->fetchExistingAlias($entity) != NULL;
   }
 
   public function createAlias(EntityInterface $entity) {
     foreach ($this->sluggers as $slugger) {
       if ($slugger->applies($entity)) {
         $langcode = $entity->language()->getId();
-        $alias = $slugger->aliasForEntity($entity);
+        $alias = $slugger->build($entity);
         $alias = $this->ensureAliasUnique($alias, $langcode);
 
         $cache_key = '/' . $entity->urlInfo()->getInternalPath();

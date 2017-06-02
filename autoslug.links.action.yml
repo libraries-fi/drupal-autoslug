@@ -1,0 +1,5 @@
+autoslug.add_rule:
+  route_name: entity.autoslug_rule.add_form
+  title: 'New rule'
+  appears_on:
+    - entity.autoslug_rule.collection

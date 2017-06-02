@@ -16,7 +16,7 @@ class DefaultSlugger implements SluggerInterface {
     return $this->isEntityManaged($entity);
   }
 
-  public function aliasForEntity(EntityInterface $entity) {
+  public function build(EntityInterface $entity) {
     $langcode = $entity->language()->getId();
     $config = $this->config->configForEntity($entity, $langcode);
     $pattern = $config['path'];
