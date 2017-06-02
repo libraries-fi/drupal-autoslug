@@ -31,20 +31,42 @@ class DefaultSlugger implements SluggerInterface {
     return $this->entityManager->getStorage('autoslug_rule')->findApplicableRule($entity);
   }
 
+  /**
+   * Extracts field values from the entity and creates an alias based on a pattern.
+   *
+   * Variables are notated by '{field_key}'.
+   * Fields of child objects can be referenced also: '{object_field:child_key}'
+   *
+   * It is also possible to extract a substring by {field_key[0]} or {field_key[0:3]},
+   * where the first integer is the first character and second integer the length of the substring.
+   */
   public function aliasByPattern(EntityInterface $entity, $pattern, $max_words = 0) {
     $replace_match = function(array $matches) use ($entity) {
+      $matches = array_values(array_filter($matches, 'strlen'));
       $prop = $matches[1];
+
       if (strpos($prop, ':')) {
         list($child, $prop) = explode(':', $prop);
         $value = $entity->get($child)->entity->get($prop)->value;
       } else {
         $value = $entity->get($prop)->value;
       }
+
+      if (count($matches) > 2) {
+        $pos = $matches[2];
+        $length = empty($matches[3]) ? 1 : $matches[3];
+        $value = substr($value, $pos, $length);
+      }
+
       return Slugger::slugify($value, FALSE, $max_words);
     };
 
-    $url = preg_replace_callback('/\{([\w|:]+)\}/', $replace_match, $pattern);
+    $alias = preg_replace_callback('/\{([\w|:]+)(?:\[(\d+)\]|\[(\d+):(\d+)\])?\}/', $replace_match, $pattern);
 
-    return $url;
+    // '(\[\d+\])|(\[\d+:\d+\])'
+
+    var_dump($alias);
+    exit('create alias');
+    return $alias;
   }
 }
