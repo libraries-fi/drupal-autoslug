@@ -1,5 +1,5 @@
 # drupal8-autoslug
-Generate clean URLs for content based on user-defined rules
+Drupal 8 module for generating clean URLs for content based on user-defined rules
 
 ## Features
 - Entity fields as URL variables
