@@ -1,5 +1,5 @@
 autoslug.configure:
-  title: 'Automatic slugs'
+  title: 'Automatic path rules'
   route_name: entity.autoslug_rule.collection
-  description: 'Configure slug rules'
-  parent: 'system.admin_config_system'
+  description: 'Configure rules for creating clean URLs for content'
+  parent: system.admin_config_search
