@@ -62,11 +62,6 @@ class DefaultSlugger implements SluggerInterface {
     };
 
     $alias = preg_replace_callback('/\{([\w|:]+)(?:\[(\d+)\]|\[(\d+):(\d+)\])?\}/', $replace_match, $pattern);
-
-    // '(\[\d+\])|(\[\d+:\d+\])'
-
-    var_dump($alias);
-    exit('create alias');
     return $alias;
   }
 }
