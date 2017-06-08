@@ -34,9 +34,9 @@ class SlugController extends ControllerBase {
     list($entity_type, $bundle) = explode('.', $type);
     $storage = $this->entityManager->getStorage($entity_type);
 
-    $iterator = new TimeLimitedIterator(function($first, $last) use ($storage, $bundle) {
+    $iterator = new TimeLimitedIterator(function($first, $count) use ($storage, $bundle) {
       $query = $storage->getQuery()
-        ->range($first, $last)
+        ->range($first, $count)
         ->sort($storage->getEntityType()->getKey('id'));
 
       if ($bundle) {

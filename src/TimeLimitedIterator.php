@@ -48,7 +48,7 @@ class TimeLimitedIterator implements Iterator {
 
   protected function fetchMore() {
     if (time() - $this->timeStarted < $this->timeLimit) {
-      $result = call_user_func($this->fetchCallback, $this->skip, $this->skip + $this->batchSize);
+      $result = call_user_func($this->fetchCallback, $this->skip, $this->batchSize);
 
       if ($result) {
         $this->data = array_merge($this->data, $result);
