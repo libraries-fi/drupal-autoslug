@@ -21,15 +21,6 @@ class DefaultSlugger implements SluggerInterface {
     return $this->findApplicableRule($entity) != NULL;
   }
 
-  public function build(EntityInterface $entity) {
-    $rule = $this->findApplicableRule($entity);
-    $alias = $this->aliasByPattern($entity, $rule->getPattern(), $rule->getWordLimit());
-    return $alias;
-  }
-
-  protected function findApplicableRule(EntityInterface $entity) {
-    return $this->entityManager->getStorage('autoslug_rule')->findApplicableRule($entity);
-  }
 
   /**
    * Extracts field values from the entity and creates an alias based on a pattern.
@@ -40,28 +31,47 @@ class DefaultSlugger implements SluggerInterface {
    * It is also possible to extract a substring by {field_key[0]} or {field_key[0:3]},
    * where the first integer is the first character and second integer the length of the substring.
    */
-  public function aliasByPattern(EntityInterface $entity, $pattern, $max_words = 0) {
-    $replace_match = function(array $matches) use ($entity) {
-      $matches = array_values(array_filter($matches, 'strlen'));
-      $prop = $matches[1];
+  public function build(EntityInterface $entity) {
+    $rule = $this->findApplicableRule($entity);
+    $values = $this->extractTokens($entity, $rule->getPattern(), $rule->getWordLimit());
+    $alias = $this->processPattern($rule->getPattern(), $values);
+    return $alias;
+  }
 
-      if (strpos($prop, ':')) {
-        list($child, $prop) = explode(':', $prop);
-        $value = $entity->get($child)->entity->get($prop)->value;
+  protected function extractTokens(EntityInterface $entity, $pattern, $max_words = 0) {
+    preg_match_all('/\{(([\w|:]+)(?:\[(\d+)\]|\[(\d+):(\d+)\])?)\}/', $pattern, $matches, PREG_SET_ORDER);
+    $values = [];
+
+    foreach ($matches as $match) {
+      $match = array_values(array_filter($match, 'strlen'));
+      $key = $match[2];
+
+      if (strpos($key, ':')) {
+        list($child, $key) = explode(':', $key);
+        $value = $entity->get($child)->entity->get($key)->value;
       } else {
-        $value = $entity->get($prop)->value;
+        $value = $entity->get($key)->value;
       }
 
-      if (count($matches) > 2) {
-        $pos = $matches[2];
-        $length = empty($matches[3]) ? 1 : $matches[3];
+      if (isset($match[3])) {
+        $pos = $match[3];
+        $length = empty($match[4]) ? 1 : $match[4];
         $value = substr($value, $pos, $length);
       }
 
-      return Slugger::slugify($value, FALSE, $max_words);
-    };
+      $values[$match[1]] = Slugger::slugify($value, FALSE, $max_words);
+    }
 
-    $alias = preg_replace_callback('/\{([\w|:]+)(?:\[(\d+)\]|\[(\d+):(\d+)\])?\}/', $replace_match, $pattern);
+    return $values;
+  }
+
+  protected function processPattern($pattern, array $tokens) {
+    $keys = array_map(function($t) { return sprintf('{%s}', $t); }, array_keys($tokens));
+    $alias = str_replace($keys, array_values($tokens), $pattern);
     return $alias;
+  }
+
+  protected function findApplicableRule(EntityInterface $entity) {
+    return $this->entityManager->getStorage('autoslug_rule')->findApplicableRule($entity);
   }
 }
