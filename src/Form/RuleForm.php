@@ -35,6 +35,17 @@ class RuleForm extends EntityForm {
       '#required' => TRUE,
     ];
 
+    $form['word_limit'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Word limit'),
+      '#description' => $this->t('Limit the number of extracted words in URL alias.'),
+      '#default_value' => $this->entity->isNew() ? 5 : $this->entity->getWordLimit(),
+      '#min' => 0,
+      '#max' => 100,
+      '#size' => 10,
+      '#required' => true,
+    ];
+
     $form['id'] = [
       '#access' => FALSE,
       '#type' => 'machine_name',
@@ -52,15 +63,12 @@ class RuleForm extends EntityForm {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $entity_id = [$form_state->getValue('type'), $form_state->getValue('bundle')];
     $entity_id = implode('__', array_filter($entity_id));
-
     $form_state->setValue('id', $entity_id);
-
     parent::submitForm($form, $form_state);
   }
 
   public function save(array $form, FormStateInterface $form_state) {
     parent::save($form, $form_state);
-
     $form_state->setRedirect('entity.autoslug_rule.collection');
 
     drupal_set_message($this->t('New path alias rule was created.'));
