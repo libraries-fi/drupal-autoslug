@@ -48,13 +48,19 @@ class RuleListBuilder extends EntityListBuilder {
   }
 
   protected function entityTypeLabel($type_id) {
-    $label = $this->entityManager->getDefinition($type_id)->getLabel();
-    return new FormattableMarkup('@label (@type)', ['@label' => $label, '@type' => $type_id]);
+    return $this->entityManager->getDefinition($type_id)->getLabel();
+    
+    // $label = $this->entityManager->getDefinition($type_id)->getLabel();
+    // return new FormattableMarkup('@label (@type)', ['@label' => $label, '@type' => $type_id]);
   }
 
   protected function entityBundleLabel($type_id, $bundle_id) {
     $bundle_type = $this->entityManager->getDefinition($type_id)->getBundleEntityType();
     $label = $this->entityManager->getStorage($bundle_type)->load($bundle_id)->label();
-    return new FormattableMarkup('@label (@id)', ['@label' => $label, '@id' => $bundle_id]);
+    return $label;
+
+    // $bundle_type = $this->entityManager->getDefinition($type_id)->getBundleEntityType();
+    // $label = $this->entityManager->getStorage($bundle_type)->load($bundle_id)->label();
+    // return new FormattableMarkup('@label (@id)', ['@label' => $label, '@id' => $bundle_id]);
   }
 }
