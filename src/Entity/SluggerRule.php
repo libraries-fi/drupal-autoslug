@@ -33,17 +33,16 @@ use Drupal\Core\Entity\EntityStorageInterface;
  *     "id",
  *     "type",
  *     "bundle",
- *     "wordLimit",
+ *     "word_limit",
  *     "url",
  *   }
  * )
  */
 class SluggerRule extends ConfigEntityBase {
   protected $id;
-  protected $label;
   protected $type;
   protected $bundle;
-  protected $wordLimit;
+  protected $word_limit;
   protected $url;
 
   public function label() {
@@ -62,19 +61,31 @@ class SluggerRule extends ConfigEntityBase {
     return $this->type;
   }
 
+  public function setApplicableEntityType($type) {
+    $this->type = $type;
+  }
+
   public function getApplicableBundle() {
     return $this->bundle;
   }
 
+  public function setApplicableBundle($bundle) {
+    $this->bundle = $bundle;
+  }
+
   public function getWordLimit() {
-    return $this->wordLimit;
+    return $this->word_limit;
+  }
+
+  public function setWordLimit($limit) {
+    $this->word_limit = (int)$limit;
   }
 
   public function getPattern() {
     return $this->url;
   }
 
-  // public function preSave(EntityStorageInterface $entity_type) {
-  //   exit('presave');
-  // }
+  public function setPattern($pattern) {
+    $this->url = $pattern;
+  }
 }
