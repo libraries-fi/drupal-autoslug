@@ -66,7 +66,7 @@ class DefaultSlugger implements SluggerInterface {
       if (isset($match[3])) {
         $pos = $match[3];
         $length = empty($match[4]) ? 1 : $match[4];
-        $value = substr($value, $pos, $length);
+        $value = mb_substr($value, $pos, $length);
       }
 
       $tokens[$match[1]] = Slugger::slugify($value, FALSE, $max_words);
