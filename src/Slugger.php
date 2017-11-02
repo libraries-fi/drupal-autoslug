@@ -9,6 +9,7 @@ class Slugger {
     $string = preg_replace('/[\s]+/', '-', $string);
     $string = preg_replace('/[^\w\-_]+/', '', $string);
     $string = preg_replace('/-{2,}/', '-', $string);
+    $string = trim($string, '-');
 
     if ($randomize) {
       $string .= '-' . substr(uniqid(true), -5);
@@ -16,8 +17,9 @@ class Slugger {
 
     if ($max_words > 0) {
       $words = array_slice(explode('-', $string), 0, $max_words);
-      $string = implode('-', $words);      
+      $string = implode('-', $words);
     }
+
 
     return $string;
   }
