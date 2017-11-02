@@ -36,7 +36,6 @@ class AliasGenerator {
         $langcode = $entity->language()->getId();
         $alias = $slugger->build($entity);
         $alias = $this->ensureAliasUnique($alias, $langcode);
-
         $cache_key = '/' . $entity->urlInfo()->getInternalPath();
         $this->aliasStorage->save($cache_key, $alias, $langcode);
         return TRUE;
