@@ -31,7 +31,7 @@ class SlugController extends ControllerBase {
   }
 
   public function aliases($type) {
-    list($entity_type, $bundle) = explode('.', $type);
+    list($entity_type, $bundle) = explode('.', $type . '.');
     $storage = $this->entityManager->getStorage($entity_type);
 
     $iterator = new TimeLimitedIterator(function($first, $count) use ($storage, $bundle) {
