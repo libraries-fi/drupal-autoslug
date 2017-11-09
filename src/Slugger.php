@@ -9,7 +9,7 @@ class Slugger {
 
   public static function transliterate($string) {
     if (empty(self::$converters)) {
-      $scripts = ['Cyrillic', 'Katakana', 'Hiragana', 'Hangul', 'Thai', 'Arabic', 'Syriac', 'Armenian', 'Bengali'];
+      $scripts = ['Cyrillic', 'Katakana', 'Hiragana', 'Hangul', 'Thai', 'Arabic', 'Syriac', 'Armenian', 'Bengali', 'Hebrew'];
 
       foreach ($scripts as $script) {
         if ($tr = Transliterator::create(sprintf('%s-Latin', $script))) {
