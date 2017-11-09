@@ -2,12 +2,24 @@
 
 namespace Drupal\autoslug;
 
+use Transliterator;
+
 class Slugger {
   public static function slugify($string, $randomize = FALSE, $max_words = 7) {
+    if (!stripos($string, 'a') && !stripos('e', $string) && !stripos('i', $string)) {
+      $scripts = ['Cyrillic', 'Katakana', 'Hiragana', 'Hangul', 'Thai', 'Arabic', 'Syriac', 'Armenian', 'Bengali'];
+      foreach ($scripts as $script) {
+        if ($tr = Transliterator::create(sprintf('%s-Latin', $script))) {
+          $string = $tr->transliterate($string);
+          $string = preg_replace('/(\W+)/', ' $1 ', $string);
+        }
+      }
+    }
+
     $string = mb_strtolower(trim($string));
-    $string = str_replace(['ä', 'ö', 'å'], ['a', 'o', 'a'], $string);
+    $string = iconv('UTF-8', 'ASCII//TRANSLIT', $string);
+    $string = preg_replace('/[\W_]+/', ' ', $string);
     $string = preg_replace('/[\s]+/', '-', $string);
-    $string = preg_replace('/[^\w\-_]+/', '', $string);
     $string = preg_replace('/-{2,}/', '-', $string);
     $string = trim($string, '-');
 
@@ -19,7 +31,6 @@ class Slugger {
       $words = array_slice(explode('-', $string), 0, $max_words);
       $string = implode('-', $words);
     }
-
 
     return $string;
   }
