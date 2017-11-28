@@ -35,7 +35,7 @@ class Slugger {
     setlocale(LC_CTYPE, 'en_US.UTF-8');
 
     $string = mb_strtolower(trim($string));
-    $string = str_replace(['å', 'ä', 'ö'], ['a', 'a', 'o']);
+    $string = str_replace(['å', 'ä', 'ö'], ['a', 'a', 'o'], $string);
     $string = iconv('UTF-8', 'ASCII//TRANSLIT', $string);
     $string = preg_replace('/[\W_]+/', ' ', $string);
     $string = preg_replace('/[\s]+/', '-', $string);
