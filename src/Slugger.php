@@ -27,7 +27,7 @@ class Slugger {
   }
 
   public static function slugify($string, $randomize = FALSE, $max_words = 7) {
-    if (!stripos($string, 'a') && !stripos('e', $string) && !stripos('i', $string)) {
+    if (!preg_match('/[aeiouy]/i', $string)) {
       $string = self::transliterate($string);
     }
 
