@@ -6,6 +6,7 @@ use DomainException;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\autoslug\SluggerInterface;
 use Drupal\autoslug\Config;
+use Drupal\autoslug\Slugger;
 
 /**
  * @deprecated
