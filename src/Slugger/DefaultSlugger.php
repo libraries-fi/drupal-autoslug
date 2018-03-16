@@ -2,6 +2,7 @@
 
 namespace Drupal\autoslug\Slugger;
 
+use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\autoslug\SluggerInterface;
@@ -81,6 +82,7 @@ class DefaultSlugger implements SluggerInterface {
   protected function processPattern($pattern, array $tokens) {
     $keys = array_map(function($t) { return sprintf('{%s}', $t); }, array_keys($tokens));
     $alias = str_replace($keys, array_values($tokens), $pattern);
+    $alias = Unicode::truncate($alias, 128, TRUE);
     return $alias;
   }
 
