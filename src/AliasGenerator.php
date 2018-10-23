@@ -30,19 +30,27 @@ class AliasGenerator {
     return $this->fetchExistingAlias($entity) != NULL;
   }
 
-  public function createAlias(EntityInterface $entity) {
-    foreach ($this->sluggers as $slugger) {
-      if ($slugger->applies($entity)) {
-        $langcode = $entity->language()->getId();
-        $alias = $slugger->build($entity);
-        $alias = $this->ensureAliasUnique($alias, $langcode);
-        $cache_key = '/' . $entity->urlInfo()->getInternalPath();
-        $this->aliasStorage->save($cache_key, $alias, $langcode);
-        return TRUE;
+  public function createAlias(EntityInterface $entity, $force = FALSE) {
+    if (!$this->entityAliasExists($entity) || $force) {
+      foreach ($this->sluggers as $slugger) {
+        if ($slugger->applies($entity)) {
+          $langcode = $entity->language()->getId();
+          $alias = $slugger->build($entity);
+          $alias = $this->ensureAliasUnique($alias, $langcode);
+          $cache_key = '/' . $entity->urlInfo()->getInternalPath();
+          $this->aliasStorage->save($cache_key, $alias, $langcode);
+          return TRUE;
+        }
       }
     }
 
     return FALSE;
+  }
+
+  public function createAllAliases(EntityInterface $entity) {
+    foreach ($entity->getTranslationLanguages() as $language) {
+      $this->createAlias($entity->getTranslation($language->getId()));
+    }
   }
 
   public function ensureAliasUnique($base, $langcode) {

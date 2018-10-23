@@ -49,10 +49,7 @@ class SlugController extends ControllerBase {
     });
 
     foreach ($iterator as $entity) {
-      foreach ($entity->getTranslationLanguages() as $language) {
-        $translated = $entity->getTranslation($language->getId());
-        $this->aliases->createAlias($translated);
-      }
+      $this->aliases->createAllAliases($entity);
     }
 
     exit('finished ' . $type);

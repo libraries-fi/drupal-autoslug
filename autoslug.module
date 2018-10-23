@@ -24,10 +24,7 @@ function autoslug_entity_insert(EntityInterface $entity) {
 function autoslug_entity_update(EntityInterface $entity) {
   if (autoslug_is_entity_published($entity)) {
     try {
-      $aliases = Drupal::service('autoslug.alias_generator');
-      if (!$aliases->entityAliasExists($entity)) {
-        $aliases->createAlias($entity);
-      }
+      Drupal::service('autoslug.alias_generator')->createAllAliases($entity);
     } catch (RuntimeException $e) {
       // pass
     }
