@@ -49,7 +49,7 @@ class RuleListBuilder extends EntityListBuilder {
 
   protected function entityTypeLabel($type_id) {
     return $this->entityManager->getDefinition($type_id)->getLabel();
-    
+
     // $label = $this->entityManager->getDefinition($type_id)->getLabel();
     // return new FormattableMarkup('@label (@type)', ['@label' => $label, '@type' => $type_id]);
   }

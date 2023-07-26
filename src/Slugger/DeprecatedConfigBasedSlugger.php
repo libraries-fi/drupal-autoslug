@@ -46,7 +46,7 @@ class DeprecatedConfigBasedSlugger implements SluggerInterface {
     $replace_match = function(array $matches) use ($entity) {
       $prop = $matches[1];
       if (strpos($prop, ':')) {
-        list($child, $prop) = explode(':', $prop);
+        [$child, $prop] = explode(':', $prop);
         $value = $entity->get($child)->entity->get($prop)->value;
       } else {
         $value = $entity->get($prop)->value;

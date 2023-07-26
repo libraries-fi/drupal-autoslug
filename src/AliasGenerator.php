@@ -21,7 +21,7 @@ class AliasGenerator {
 
   public function fetchExistingAlias(EntityInterface $entity) {
     $langcode = $entity->language()->getId();
-    $cache_key = '/' . $entity->urlInfo()->getInternalPath();
+    $cache_key = '/' . $entity->toUrl()->getInternalPath();
     $match = $this->aliasStorage->lookupPathAlias($cache_key, $langcode);
     return $match;
   }
@@ -37,7 +37,7 @@ class AliasGenerator {
           $langcode = $entity->language()->getId();
           $alias = $slugger->build($entity);
           $alias = $this->ensureAliasUnique($alias, $langcode);
-          $cache_key = '/' . $entity->urlInfo()->getInternalPath();
+          $cache_key = '/' . $entity->toUrl()->getInternalPath();
           $this->aliasStorage->save($cache_key, $alias, $langcode);
           return TRUE;
         }

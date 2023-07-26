@@ -32,14 +32,14 @@ class TimeLimitedIterator implements Iterator {
   }
 
   public function key() {
-    return $this->i < count($this->data) ? $this->i : FALSE;
+    return $this->i < (is_countable($this->data) ? count($this->data) : 0) ? $this->i : FALSE;
   }
 
   public function valid() {
-    if ($this->i >= count($this->data)) {
+    if ($this->i >= (is_countable($this->data) ? count($this->data) : 0)) {
       $this->fetchMore();
     }
-    return $this->i < count($this->data);
+    return $this->i < (is_countable($this->data) ? count($this->data) : 0);
   }
 
   public function rewind() {

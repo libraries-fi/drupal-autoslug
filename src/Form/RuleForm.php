@@ -71,7 +71,7 @@ class RuleForm extends EntityForm {
     parent::save($form, $form_state);
     $form_state->setRedirect('entity.autoslug_rule.collection');
 
-    drupal_set_message($this->t('New path alias rule was created.'));
+    $this->messenger()->addStatus($this->t('New path alias rule was created.'));
   }
 
   protected function getEntityTypeOptions() {
