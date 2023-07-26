@@ -43,6 +43,8 @@ class SlugController extends ControllerBase {
         $query->condition($storage->getEntityType()->getKey('bundle'), $bundle);
       }
 
+      $query->accessCheck(TRUE); // Added this line to specify access check
+
       if ($result = $query->execute()) {
         return $storage->loadMultiple($result);
       }

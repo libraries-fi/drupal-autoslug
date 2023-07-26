@@ -79,7 +79,7 @@ class RuleForm extends EntityForm {
     $options = [];
 
     foreach ($types as $type) {
-      if ($type->isSubClassOf(ContentEntityInterface::class)) {
+      if ($type->entityClassImplements(ContentEntityInterface::class)) {
         $options[$type->id()] = (string)$type->getLabel();
       }
     }
@@ -94,7 +94,7 @@ class RuleForm extends EntityForm {
     $options = [];
 
     foreach ($types as $type) {
-      if ($type->isSubClassOf(ContentEntityInterface::class) && $type->getBundleEntityType()) {
+      if ($type->entityClassImplements(ContentEntityInterface::class) && $type->getBundleEntityType()) {
         $bundles = $this->entityTypeManager->getStorage($type->getBundleEntityType())->loadMultiple();
         $group = (string)$type->getLabel();
 

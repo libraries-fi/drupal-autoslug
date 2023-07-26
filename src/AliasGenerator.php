@@ -4,14 +4,17 @@ namespace Drupal\autoslug;
 
 use SplPriorityQueue;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Path\AliasStorageInterface;
+use Drupal\path_alias\AliasRepositoryInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 class AliasGenerator {
   protected $aliasStorage;
+  protected $aliasRepository;
   protected $sluggers;
 
-  public function __construct(AliasStorageInterface $alias_storage) {
-    $this->aliasStorage = $alias_storage;
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, AliasRepositoryInterface $alias_repository) {
+    $this->aliasStorage = $entity_type_manager->getStorage('path_alias');
+    $this->aliasRepository = $alias_repository;
     $this->sluggers = new SplPriorityQueue;
   }
 
@@ -22,7 +25,7 @@ class AliasGenerator {
   public function fetchExistingAlias(EntityInterface $entity) {
     $langcode = $entity->language()->getId();
     $cache_key = '/' . $entity->toUrl()->getInternalPath();
-    $match = $this->aliasStorage->lookupPathAlias($cache_key, $langcode);
+    $match = $this->aliasRepository->lookupBySystemPath($cache_key, $langcode);
     return $match;
   }
 
@@ -38,7 +41,12 @@ class AliasGenerator {
           $alias = $slugger->build($entity);
           $alias = $this->ensureAliasUnique($alias, $langcode);
           $cache_key = '/' . $entity->toUrl()->getInternalPath();
-          $this->aliasStorage->save($cache_key, $alias, $langcode);
+          $alias = $this->aliasStorage->create([
+            'path' => $cache_key,
+            'alias' => $alias,
+            'langcode' => $langcode
+          ]);
+          $alias->save();
           return TRUE;
         }
       }
@@ -55,7 +63,7 @@ class AliasGenerator {
 
   public function ensureAliasUnique($base, $langcode) {
     $alias = $base;
-    for ($i = 1; $this->aliasStorage->lookupPathSource($alias, $langcode); $i++) {
+    for ($i = 1; $this->aliasRepository->pathHasMatchingAlias($alias, $langcode); $i++) {
       $alias = implode('-', [$base, $i]);
     }
     return $alias;

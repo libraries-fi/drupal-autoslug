@@ -3,5 +3,7 @@ type: module
 package: Kirjastot.fi
 description: Generate SEO URLs for content automaticly
 core: 8.x
+core_version_requirement: ^8 || ^9
 configure: entity.autoslug_rule.collection
-dependencies: { }
+dependencies:
+  - drupal:path

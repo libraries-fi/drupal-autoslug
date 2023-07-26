@@ -10,18 +10,18 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class RuleListBuilder extends EntityListBuilder {
-  protected $entityManager;
+  protected $entityTypeManager;
 
   public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
     return new static(
-      $container->get('entity.manager'),
+      $container->get('entity_type.manager'),
       $entity_type
     );
   }
 
-  public function __construct(EntityTypeManagerInterface $entity_manager, EntityTypeInterface $entity_type) {
-    parent::__construct($entity_type, $entity_manager->getStorage($entity_type->id()));
-    $this->entityManager = $entity_manager;
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, EntityTypeInterface $entity_type) {
+    parent::__construct($entity_type, $entity_type_manager->getStorage($entity_type->id()));
+    $this->entityTypeManager = $entity_type_manager;
   }
 
   public function buildHeader() {
@@ -48,15 +48,15 @@ class RuleListBuilder extends EntityListBuilder {
   }
 
   protected function entityTypeLabel($type_id) {
-    return $this->entityManager->getDefinition($type_id)->getLabel();
+    return $this->entityTypeManager->getDefinition($type_id)->getLabel();
 
     // $label = $this->entityManager->getDefinition($type_id)->getLabel();
     // return new FormattableMarkup('@label (@type)', ['@label' => $label, '@type' => $type_id]);
   }
 
   protected function entityBundleLabel($type_id, $bundle_id) {
-    $bundle_type = $this->entityManager->getDefinition($type_id)->getBundleEntityType();
-    $label = $this->entityManager->getStorage($bundle_type)->load($bundle_id)->label();
+    $bundle_type = $this->entityTypeManager->getDefinition($type_id)->getBundleEntityType();
+    $label = $this->entityTypeManager->getStorage($bundle_type)->load($bundle_id)->label();
     return $label;
 
     // $bundle_type = $this->entityManager->getDefinition($type_id)->getBundleEntityType();
