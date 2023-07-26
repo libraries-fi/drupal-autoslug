@@ -71,7 +71,7 @@ class RuleForm extends EntityForm {
     parent::save($form, $form_state);
     $form_state->setRedirect('entity.autoslug_rule.collection');
 
-    drupal_set_message($this->t('New path alias rule was created.'));
+    $this->messenger()->addStatus($this->t('New path alias rule was created.'));
   }
 
   protected function getEntityTypeOptions() {
@@ -79,7 +79,7 @@ class RuleForm extends EntityForm {
     $options = [];
 
     foreach ($types as $type) {
-      if ($type->isSubClassOf(ContentEntityInterface::class)) {
+      if ($type->entityClassImplements(ContentEntityInterface::class)) {
         $options[$type->id()] = (string)$type->getLabel();
       }
     }
@@ -94,7 +94,7 @@ class RuleForm extends EntityForm {
     $options = [];
 
     foreach ($types as $type) {
-      if ($type->isSubClassOf(ContentEntityInterface::class) && $type->getBundleEntityType()) {
+      if ($type->entityClassImplements(ContentEntityInterface::class) && $type->getBundleEntityType()) {
         $bundles = $this->entityTypeManager->getStorage($type->getBundleEntityType())->loadMultiple();
         $group = (string)$type->getLabel();
 

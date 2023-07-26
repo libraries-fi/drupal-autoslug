@@ -4,7 +4,7 @@ services:
     arguments: ['@config.factory']
   autoslug.alias_generator:
     class: Drupal\autoslug\AliasGenerator
-    arguments: ['@path.alias_storage']
+    arguments: ['@entity_type.manager', '@path_alias.repository']
     tags:
       - { name: service_collector, tag: autoslug_slugger, call: addSlugger }
   autoslug.slugger.default:

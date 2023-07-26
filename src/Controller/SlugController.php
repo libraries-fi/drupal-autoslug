@@ -31,7 +31,7 @@ class SlugController extends ControllerBase {
   }
 
   public function aliases($type) {
-    list($entity_type, $bundle) = explode('.', $type . '.');
+    [$entity_type, $bundle] = explode('.', $type . '.');
     $storage = $this->entityManager->getStorage($entity_type);
 
     $iterator = new TimeLimitedIterator(function($first, $count) use ($storage, $bundle) {
@@ -42,6 +42,8 @@ class SlugController extends ControllerBase {
       if ($bundle) {
         $query->condition($storage->getEntityType()->getKey('bundle'), $bundle);
       }
+
+      $query->accessCheck(TRUE); // Added this line to specify access check
 
       if ($result = $query->execute()) {
         return $storage->loadMultiple($result);
