@@ -58,7 +58,7 @@ class DefaultSlugger implements SluggerInterface {
       $key = $match[2];
 
       if (strpos($key, ':')) {
-        list($child, $key) = explode(':', $key);
+        [$child, $key] = explode(':', $key);
         $value = $entity->get($child)->entity->get($key)->value;
       } else {
         $value = $entity->get($key)->value;
@@ -80,7 +80,7 @@ class DefaultSlugger implements SluggerInterface {
    * Replace tokens from the URL pattern.
    */
   protected function processPattern($pattern, array $tokens) {
-    $keys = array_map(function($t) { return sprintf('{%s}', $t); }, array_keys($tokens));
+    $keys = array_map(fn($t) => sprintf('{%s}', $t), array_keys($tokens));
     $alias = str_replace($keys, array_values($tokens), $pattern);
     $alias = Unicode::truncate($alias, 128, TRUE);
     return $alias;
