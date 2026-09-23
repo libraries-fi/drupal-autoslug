@@ -3,9 +3,14 @@
 namespace Drupal\autoslug;
 
 use DomainException;
-use Drupal\node\Entity\Node;
 
 class Config {
+  /**
+   * The autoslug.settings configuration object.
+   *
+   * @var \Drupal\Core\Config\Config
+   */
+  protected $config;
   public function __construct($config) {
     $this->config = $config->get('autoslug.settings');
   }

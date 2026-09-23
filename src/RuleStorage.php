@@ -21,7 +21,6 @@ class RuleStorage extends ConfigEntityStorage {
     $original_language = $this->languageManager->getConfigOverrideLanguage();
     $this->languageManager->setConfigOverrideLanguage($entity->language());
     $rules = $this->loadMultiple($rule_ids);
-    $rule = reset($rules);
     $this->languageManager->setConfigOverrideLanguage($original_language);
 
     return reset($rules);
