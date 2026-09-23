@@ -16,6 +16,6 @@ autoslug.rule.*:
       label: 'URL Base'
       translatable: TRUE
       form_element_class: '\Drupal\config_translation\FormElement\Textfield'
-    wordLimit:
+    word_limit:
       type: integer
       label: 'Maximum number of words'

@@ -8,6 +8,10 @@ use Iterator;
 class TimeLimitedIterator implements Iterator {
   protected $data;
   protected $i;
+  protected $timeStarted;
+  protected $queryVariable;
+  protected $skip;
+  protected $fetchCallback;
 
   protected $timeLimit = 50;
   protected $batchSize = 100;

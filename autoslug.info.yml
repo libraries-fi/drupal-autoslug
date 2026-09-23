@@ -2,8 +2,7 @@ name: Automatic Slugs
 type: module
 package: Kirjastot.fi
 description: Generate SEO URLs for content automaticly
-core: 8.x
-core_version_requirement: ">=8"
+core_version_requirement: ^10.3 || ^11
 configure: entity.autoslug_rule.collection
 dependencies:
   - drupal:path
