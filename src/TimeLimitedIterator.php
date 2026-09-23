@@ -27,26 +27,26 @@ class TimeLimitedIterator implements Iterator {
     $this->fetchCallback = $fetch_more;
   }
 
-  public function current() {
+  public function current(): mixed {
     return $this->data[$this->i];
   }
 
-  public function next() {
+  public function next(): void {
     $this->i++;
   }
 
-  public function key() {
+  public function key(): mixed {
     return $this->i < (is_countable($this->data) ? count($this->data) : 0) ? $this->i : FALSE;
   }
 
-  public function valid() {
+  public function valid(): bool {
     if ($this->i >= (is_countable($this->data) ? count($this->data) : 0)) {
       $this->fetchMore();
     }
     return $this->i < (is_countable($this->data) ? count($this->data) : 0);
   }
 
-  public function rewind() {
+  public function rewind(): void {
     $this->i = 0;
   }
 
